@@ -1,46 +1,48 @@
 // Configuração do Leitor de Código de Barras
-// Quagga.init({
-//     inputStream : {
-//       name : "Live",
-//       type : "LiveStream",
-//       target: document.querySelector('#camera')    // Or '#yourElement' (optional)
-//     },
-//     decoder : {
-//       readers : ["code_128_reader"]
-//     }
-//   }, function(err) {
-//       if (err) {
-//           console.log(err);
-//           return
-//       }
-//       console.log("Initialization finished. Ready to start");
-//       Quagga.start();
-//   });
 
-//   Quagga.onDetected(function(data) {
-//     console.log(data);
+// document.addEventListener('keydown', function(event) {
 
-//     document.querySelector('#dados').innerHTML = data.codeResult.code;
+//     let campoCodigoBarras = document.getElementById("campoCodigoBarras");
+//     let resultadoCodigoBarras = document.getElementById("resultadoCodigoBarras");
 
-//   });
+//     if (event.target === campoCodigoBarras) {
+//       let codigoDeBarrasLido = event.target.value;
+//       // Faça algo com o código de barras lido
+//       resultadoCodigoBarras.textContent = "Código de barras lido: " + codigoDeBarrasLido;
+//     };
+// });
+
+let xmls = {
+    'codigo1': '<xml>...</xml>', // Substitua 'codigo1' pelo código de barras e '<xml>...</xml>' pelo conteúdo XML correspondente
+    'codigo2': '<xml>...</xml>',
+    // Adicione mais mapeamentos conforme necessário
+  };
+
+document.addEventListener('keydown', function(event) {
+    let campoCodigoBarras = document.getElementById("campoCodigoBarras");
+    let resultadoCodigoBarras = document.getElementById("resultadoCodigoBarras");
+  
+    if (event.target === campoCodigoBarras) {
+        let codigoDeBarrasLido = event.target.value;
+  
+        let xmlCorrespondente = codigoDeBarrasLido;
+  
+      if (xmlCorrespondente) {
+        // Exibe o conteúdo do XML no elemento HTML
+        resultadoCodigoBarras.innerHTML = xmlCorrespondente;
+      } else {
+        // Caso não exista um XML correspondente ao código de barras
+        resultadoCodigoBarras.textContent = "XML não encontrado";
+      }
+  
+      // Limpa o campo de código de barras para a próxima leitura
+      event.target.value = "";
+    }
+  });
+
 // Configuração do Leitor de Código de Barras
 
 // Configuração dos dados do Código de Barras
-// document.getElementById("showCD").innerHTML =
-//     "ID: " +
-//     x[i].getAttribute("id") +
-//     "<br>Cliente: " + 
-//     x[i].getAttribute("ClientNest") +
-//     "<br>Ambiente: " + 
-//     x[i].getAttribute("StackingLayout") +
-//     "<br>Largura: " +
-//     x[i].getAttribute("L") +
-//     "<br>Cor: " + 
-//     x[i].getAttribute("Material") +
-//     "<br>Código: " + 
-//     x[i].getAttribute("MatEdgeUp") +
-//     "<br>Posição: " + 
-//     x[i].getAttribute("CabDesc");
 
 displayCD(0);
 
@@ -98,6 +100,7 @@ function myFunction(xml, i) {
 // Configuração dos dados do Código de Barras
 
 // Download dos Arquivos em forma de Planilha.
+
 const downloadXLSX = () => {
     const wb = XLSX.utils.book_new();
 
@@ -122,4 +125,5 @@ const downloadXLSX = () => {
 document.getElementById('download').addEventListener('click', () => {
     downloadXLSX();
 });
+
 // Download dos Arquivos em forma de Planilha.
