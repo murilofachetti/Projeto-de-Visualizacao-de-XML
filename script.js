@@ -1,129 +1,123 @@
 // Configuração do Leitor de Código de Barras
 
-// document.addEventListener('keydown', function(event) {
-
-//     let campoCodigoBarras = document.getElementById("campoCodigoBarras");
-//     let resultadoCodigoBarras = document.getElementById("resultadoCodigoBarras");
-
-//     if (event.target === campoCodigoBarras) {
-//       let codigoDeBarrasLido = event.target.value;
-//       // Faça algo com o código de barras lido
-//       resultadoCodigoBarras.textContent = "Código de barras lido: " + codigoDeBarrasLido;
-//     };
-// });
-
-let xmls = {
-    'codigo1': '<xml>...</xml>', // Substitua 'codigo1' pelo código de barras e '<xml>...</xml>' pelo conteúdo XML correspondente
-    'codigo2': '<xml>...</xml>',
-    // Adicione mais mapeamentos conforme necessário
-  };
-
-document.addEventListener('keydown', function(event) {
-    let campoCodigoBarras = document.getElementById("campoCodigoBarras");
-    let resultadoCodigoBarras = document.getElementById("resultadoCodigoBarras");
+function readBarcode() {
+    const barcodeInput = document.getElementById("barcodeInput");
+    const resultDiv = document.getElementById("result");
+    const sheetContainer = document.getElementById("sheetContainer");
   
-    if (event.target === campoCodigoBarras) {
-        let codigoDeBarrasLido = event.target.value;
+    // Simulando a leitura do código de barras após 1 segundo (1000ms)
+    setTimeout(function() {
+      const barcodeData = barcodeInput.value;
   
-        let xmlCorrespondente = codigoDeBarrasLido;
+      // Editar os dados
+      const editedData = editBarcodeData(barcodeData);
   
-      if (xmlCorrespondente) {
-        // Exibe o conteúdo do XML no elemento HTML
-        resultadoCodigoBarras.innerHTML = xmlCorrespondente;
-      } else {
-        // Caso não exista um XML correspondente ao código de barras
-        resultadoCodigoBarras.textContent = "XML não encontrado";
-      }
+      // Criação da planilha
+      const worksheet = XLSX.utils.aoa_to_sheet([[editedData]]); // Inserir os dados na planilha
   
-      // Limpa o campo de código de barras para a próxima leitura
-      event.target.value = "";
-    }
-  });
-
+      // Transformar a planilha em HTML
+      const htmlTable = XLSX.utils.sheet_to_html(worksheet);
+  
+      // Exibir a planilha na página
+      sheetContainer.innerHTML = htmlTable;
+  
+      // Exibir mensagem de sucesso
+      resultDiv.textContent = "Dados do código de barras editados exibidos na planilha abaixo.";
+  
+      barcodeInput.value = ''; // Limpar o campo de entrada de texto
+    }, 1000); // 1 segundo (1000ms)
+  }
+  
+  function editBarcodeData(data) {
+    // Implemente sua lógica de edição aqui
+    // Por exemplo, substituir os primeiros 3 dígitos por "ABC"
+    return "ABC" + data.substring(3);
+  }
+  
 // Configuração do Leitor de Código de Barras
 
 // Configuração dos dados do Código de Barras
 
-displayCD(0);
+// displayCD(0);
 
-function displayCD(i) {
-    var xmlhttp = new XMLHttpRequest();
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            myFunction(this, i);
-        }
-    };
-    xmlhttp.open("GET", "./Arquivos/belakasa.xml", true);
-    xmlhttp.send();
-}
+// function displayCD(i) {
+//     let xmlhttp = new XMLHttpRequest();
+//     xmlhttp.onreadystatechange = function() {
+//         if (this.readyState == 4 && this.status == 200) {
+//             myFunction(this, i);
+//         }
+//     };
+//     xmlhttp.open("GET", "./Arquivos/belakasa.xml", true);
+//     xmlhttp.send();
+// }
 
-function myFunction(xml, i) {
-    let xmlDoc = xml.responseXML; 
-    const elements = xmlDoc.querySelectorAll("Part");
-    let showCDContent = document.getElementById("showCD2")
-    let showCDcont = ""
+// function myFunction(xml, i) {
+//     let xmlDoc = xml.responseXML; 
+//     const elements = xmlDoc.querySelectorAll("Part");
+//     let showCDContent = document.getElementById("showCD2")
+//     let showCDcont = ""
 
-    elements.forEach((element) => {
-        const attributes = element.attributes;
+//     elements.forEach((element) => {
+//         const attributes = element.attributes;
 
-        // Iterar sobre os atributos
-        for (let i = 0; i < attributes.length; i++) {
-            let attribute = attributes[i];
-            let attributeName = attribute.name;
-            let attributeValue = attribute.value;
+//         // Iterar sobre os atributos
+//         for (let i = 0; i < attributes.length; i++) {
+//             let attribute = attributes[i];
+//             let attributeName = attribute.name;
+//             let attributeValue = attribute.value;
 
-            for (let i = 0; i < elements.length; i++) {
-                let element = elements[i];
-                element.removeAttribute("qMin", "");
-                element.removeAttribute("MatNo", "");
-                element.removeAttribute("W", "");
-                element.removeAttribute("IDesc", "");
-                element.removeAttribute("InfoDraw_1", "");
-                element.removeAttribute("Draw_1", "");
-                element.removeAttribute("JobNest", "");
-                element.removeAttribute("DrillInfo", "");
-                element.removeAttribute("EdgingInfo", "");
-                element.removeAttribute("CabCode", "");
-                element.removeAttribute("CabInfo", "");
-                element.removeAttribute("InsLam", "");
-                element.removeAttribute("MatEdgeLo", "");
-                element.removeAttribute("MatEdgeL", "");
-                element.removeAttribute("MatEdgeR", "");
-            }
-            showCDcont += (attributeName + ": " + attributeValue) + "<br>";
-        }
-    });
+//             for (let i = 0; i < elements.length; i++) {
+//                 let element = elements[i];
+//                 element.removeAttribute("qMin", "");
+//                 element.removeAttribute("MatNo", "");
+//                 element.removeAttribute("W", "");
+//                 element.removeAttribute("IDesc", "");
+//                 element.removeAttribute("InfoDraw_1", "");
+//                 element.removeAttribute("Draw_1", "");
+//                 element.removeAttribute("JobNest", "");
+//                 element.removeAttribute("DrillInfo", "");
+//                 element.removeAttribute("EdgingInfo", "");
+//                 element.removeAttribute("CabCode", "");
+//                 element.removeAttribute("CabInfo", "");
+//                 element.removeAttribute("InsLam", "");
+//                 element.removeAttribute("MatEdgeLo", "");
+//                 element.removeAttribute("MatEdgeL", "");
+//                 element.removeAttribute("MatEdgeR", "");
+//             }
+//             showCDcont += (attributeName + ": " + attributeValue) + "<br>";
+//         }
+//     });
 
-    showCDContent.innerHTML = showCDcont;
-}
+//     showCDContent.innerHTML = showCDcont;
+// }
     
 // Configuração dos dados do Código de Barras
 
 // Download dos Arquivos em forma de Planilha.
 
-const downloadXLSX = () => {
-    const wb = XLSX.utils.book_new();
+// const downloadXLSX = () => {
+//     const wb = XLSX.utils.book_new();
 
-    wb.Props = {
-        Title: 'Relatório',
-        Assunto: '...',
-    };
+//     wb.Props = {
+//         Title: 'Relatório',
+//         Assunto: '...',
+//     };
 
-    wb.SheetNames.push('Relatório 01');
+//     wb.SheetNames.push('Relatório 01');
 
-    const dados = [
-        ['Nome', 'Usuário'],
-        ['teste', 'teste']
-    ];
+//     const dados = [
+//         ['Nome', 'Usuário'],
+//         ['teste', 'teste']
+//     ];
 
-    const ws = XLSX.utils.aoa_to_sheet(dados);
+//     const ws = XLSX.utils.aoa_to_sheet(dados);
 
-    wb.Sheets['Relatório 01'] = ws;
+//     wb.Sheets['Relatório 01'] = ws;
 
-    XLSX.writeFile(wb, 'Relatório do Projeto.xlsx', { bookType: 'xlsx', type: 'bynary'})};
+//     XLSX.writeFile(wb, 'Relatório do Projeto.xlsx', { bookType: 'xlsx', type: 'bynary'})};
 
-document.getElementById('download').addEventListener('click', () => {
-    downloadXLSX();
-});
+// document.getElementById('download').addEventListener('click', () => {
+//     downloadXLSX();
+// });
 
 // Download dos Arquivos em forma de Planilha.
