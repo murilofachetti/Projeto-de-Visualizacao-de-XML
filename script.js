@@ -1,97 +1,40 @@
-// Configuração do Leitor de Código de Barras
+  $(document).ready(function() {
+    // Captura o evento de seleção de arquivo
+    $('#fileInput').on('change', function(e) {
+      let file = e.target.files[0];
+      let reader = new FileReader();
 
-function readBarcode() {
-    const barcodeInput = document.getElementById("barcodeInput");
-    const resultDiv = document.getElementById("result");
-    const sheetContainer = document.getElementById("sheetContainer");
-  
-    // Simulando a leitura do código de barras após 1 segundo (1000ms)
-    setTimeout(function() {
-      const barcodeData = barcodeInput.value;
-  
-      // Editar os dados
-      const editedData = editBarcodeData(barcodeData);
-  
-      // Criação da planilha
-      const worksheet = XLSX.utils.aoa_to_sheet([[editedData]]); // Inserir os dados na planilha
-  
-      // Transformar a planilha em HTML
-      const htmlTable = XLSX.utils.sheet_to_html(worksheet);
-  
-      // Exibir a planilha na página
-      sheetContainer.innerHTML = htmlTable;
-  
-      // Exibir mensagem de sucesso
-      resultDiv.textContent = "Dados do código de barras editados exibidos na planilha abaixo.";
-  
-      barcodeInput.value = ''; // Limpar o campo de entrada de texto
-    }, 1000); // 1 segundo (1000ms)
-  }
-  
-  function editBarcodeData(data) {
-    // Implemente sua lógica de edição aqui
-    // Por exemplo, substituir os primeiros 3 dígitos por "ABC"
-    return "ABC" + data.substring(3);
-  }
-  
-// Configuração do Leitor de Código de Barras
+      reader.onload = function(e) {
+        let xmlContent = e.target.result;
+        let xmlDoc = $.parseXML(xmlContent);
+        let $xml = $(xmlDoc);
 
-// Configuração dos dados do Código de Barras
+        // Extraia as informações desejadas do XML e crie a tabela
+        let clientName = $xml.find('CutList').find('ClientNest').text();
+        $('#clientName').text('Cliente: ' + clientName);
+        let ambiente = $xml.find('CutList').find('StackingLayout').text();
+        $('#ambiente').text('Ambiente:' + ambiente)
 
-// displayCD(0);
+        let tableContent = '';
+        $xml.find('Part').each(function() {
+          let id = $(this).attr('id');
+          let peca = $(this).attr('CabDesc');
+          let larg = $(this).attr('L');
+          let alt = $(this).attr('W');
+          let cor = $(this).attr('Material');
+          let codigo = $(this).attr('MatEdgeUp');
+          tableContent += '<tr><td>' + id + '</td><td>' + peca + '</td><td>' + larg + '</td><td>' + alt + '</td><td>' + cor + '</td><td>' + codigo + '</td></tr>';
+        });
 
-// function displayCD(i) {
-//     let xmlhttp = new XMLHttpRequest();
-//     xmlhttp.onreadystatechange = function() {
-//         if (this.readyState == 4 && this.status == 200) {
-//             myFunction(this, i);
-//         }
-//     };
-//     xmlhttp.open("GET", "./Arquivos/belakasa.xml", true);
-//     xmlhttp.send();
-// }
+        $('#xmlTable').html('<tr><th>ID</th><th>Peça</th><th>Largura</th><th>Altura</th><th>Cor</th><th>Código</th></tr>' + tableContent);
 
-// function myFunction(xml, i) {
-//     let xmlDoc = xml.responseXML; 
-//     const elements = xmlDoc.querySelectorAll("Part");
-//     let showCDContent = document.getElementById("showCD2")
-//     let showCDcont = ""
+        // Exibe a tabela
+        $('#tableContainer').addClass('show');
+      };
 
-//     elements.forEach((element) => {
-//         const attributes = element.attributes;
-
-//         // Iterar sobre os atributos
-//         for (let i = 0; i < attributes.length; i++) {
-//             let attribute = attributes[i];
-//             let attributeName = attribute.name;
-//             let attributeValue = attribute.value;
-
-//             for (let i = 0; i < elements.length; i++) {
-//                 let element = elements[i];
-//                 element.removeAttribute("qMin", "");
-//                 element.removeAttribute("MatNo", "");
-//                 element.removeAttribute("W", "");
-//                 element.removeAttribute("IDesc", "");
-//                 element.removeAttribute("InfoDraw_1", "");
-//                 element.removeAttribute("Draw_1", "");
-//                 element.removeAttribute("JobNest", "");
-//                 element.removeAttribute("DrillInfo", "");
-//                 element.removeAttribute("EdgingInfo", "");
-//                 element.removeAttribute("CabCode", "");
-//                 element.removeAttribute("CabInfo", "");
-//                 element.removeAttribute("InsLam", "");
-//                 element.removeAttribute("MatEdgeLo", "");
-//                 element.removeAttribute("MatEdgeL", "");
-//                 element.removeAttribute("MatEdgeR", "");
-//             }
-//             showCDcont += (attributeName + ": " + attributeValue) + "<br>";
-//         }
-//     });
-
-//     showCDContent.innerHTML = showCDcont;
-// }
-    
-// Configuração dos dados do Código de Barras
+      reader.readAsText(file);
+    });
+  });
 
 // Download dos Arquivos em forma de Planilha.
 

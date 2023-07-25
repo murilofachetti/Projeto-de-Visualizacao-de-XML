@@ -12,61 +12,89 @@
     box-sizing: inherit;
 }
 
-#container {
-    width: 100%;
-    padding: 12px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.col-12 {
-    flex: 0 0 100%;
-    max-width: 100%; 
-}
-
-img {
-    
-}
-
-h1 {
-    text-align: center;
-}
-
-h2 {
-    padding-top: 30px;
-    padding-bottom: 30px;
-}
-
-#info {
-    display: flex;
-    width: auto;
-}
-
-input {
-    width: 400px;
-    height: 50px;
-    font-size: 16px;
-    border: 2px solid #fff;
-    border-radius: 8px;
-    margin-bottom: 15px;
-    margin-right: 15px;
-}
-
-#leitura {
-    width: 75px;
-    height: 50px;
-    background-color: #fff;
-    border: 2px solid #ffffff77;
-    border-radius: 8px;
-    color: black;
+/* Estilo do botão de carregamento de arquivo */
+#fileInput {
+    margin-bottom: 10px;
+    display: none; /* Oculta o input original */
+  }
+  
+  /* Estilo do botão personalizado */
+  .custom-file-upload {
+    display: inline-block;
+    padding: 8px 20px;
     cursor: pointer;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
     font-weight: bold;
+  }
+  
+  /* Estilo do botão personalizado ao passar o mouse */
+  .custom-file-upload:hover {
+    background-color: #45a049;
+  }
+  
+  /* Estilo do botão personalizado quando pressionado */
+  .custom-file-upload:active {
+    background-color: #3e8e41;
+  }
+  
+
+.hidden {
+    display: none;
 }
 
-#sheetContainer {
-    width: auto;
-    height: auto;
-}
+/* Estilo da tabela */
+#xmlTable {
+    border-collapse: collapse;
+    width: 100%;
+    font-family: Arial, sans-serif;
+  }
+  
+  #xmlTable th,
+  #xmlTable td {
+    border: 1px solid #dddddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  #xmlTable th {
+    /* background-color:; */
+  }
+  
+  /* Estilo da div do nome do cliente */
+  #clientName {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  #ambiente {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  /* Estilo do container da tabela */
+  #tableContainer {
+    display: none; /* Inicialmente oculto */
+    padding: 10px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+  }
+  
+  /* Estilo da tabela quando visível */
+  #tableContainer.show {
+    display: block; /* Exibir quando a tabela estiver pronta */
+  }
+  
+  /* Estilo do botão de carregamento de arquivo */
+  #fileInput {
+    margin-bottom: 10px;
+  }
+
 
 #downloadcontent {
     margin-top: 100px;

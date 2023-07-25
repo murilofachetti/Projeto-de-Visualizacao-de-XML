@@ -1,35 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="style.css">
-        <link rel="shortcut icon" href="./assets//img/kfavicon.png" type="image/x-icon">
-        <title>Leitor de Código de Barras</title>
-    </head>
-    <body>
-        <div id="container">
-            <div id="img">
-                <img src="./assets/img/logobelakasa.png" alt="Italian Trulli">
-            </div>
-        <h2>Informações:</h2>
-            <div id="info">
-                <input type="text" id="barcodeInput" placeholder="Digite ou leia o código de barras.">
-                <button id="leitura" onclick="readBarcode()">Ler Código de Barras</button>
-            </div>
-            <div id="dados">
-                <div id="result"></div>
-                <div id="sheetContainer"></div>
-            </div>
-            <div id="downloadcontent">
-                <button id="download">Baixar</button>
-            </div>
-        </div>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <link rel="shortcut icon" href="/assets/img/kfavicon.png">
+  <title>Visualização do XML</title>
+  <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <img src="./assets/img/logobelakasa.png" alt="">
+    <label for="fileInput" class="custom-file-upload">Carregar XML</label>
+    <input type="file" id="fileInput" accept=".xml">
+    <div id="tableContainer">
+    <div id="clientName"></div>
+    <div id="ambiente"></div>
+    <table id="xmlTable">
+      <!-- Conteúdo da tabela aqui -->
+    </table>
+  </div>
 
-        <script lang="javascript" src="https://cdn.sheetjs.com/xlsx-0.20.0/package/dist/xlsx.full.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-        <script src="script.js"></script>
-    </body>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="script.js"></script>
+</body>
 </html>
