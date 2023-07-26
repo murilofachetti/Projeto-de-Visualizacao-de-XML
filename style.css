@@ -1,122 +1,132 @@
 * {
-    margin: 0;
-    padding: 0;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    justify-content: center;
+  margin: 0;
+  padding: 0;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  justify-content: center;
 }
 
-*, :after, :before {
-    background-repeat: no-repeat;
-    box-sizing: inherit;
+*,
+:after,
+:before {
+  background-repeat: no-repeat;
+  box-sizing: inherit;
+}
+
+.highlight {
+  background-color: #4caf50;
+  color: white;
 }
 
 /* Estilo do botão de carregamento de arquivo */
 #fileInput {
-    margin-bottom: 10px;
-    display: none; /* Oculta o input original */
-  }
-  
-  /* Estilo do botão personalizado */
-  .custom-file-upload {
-    display: inline-block;
-    padding: 8px 20px;
-    cursor: pointer;
-    background-color: #4CAF50;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-  }
-  
-  /* Estilo do botão personalizado ao passar o mouse */
-  .custom-file-upload:hover {
-    background-color: #45a049;
-  }
-  
-  /* Estilo do botão personalizado quando pressionado */
-  .custom-file-upload:active {
-    background-color: #3e8e41;
-  }
-  
+  margin-bottom: 10px;
+  display: none; /* Oculta o input original */
+}
+
+/* Estilo do botão personalizado */
+.custom-file-upload {
+  display: inline-block;
+  padding: 8px 20px;
+  cursor: pointer;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* Estilo do botão personalizado ao passar o mouse */
+.custom-file-upload:hover {
+  background-color: #45a049;
+}
+
+/* Estilo do botão personalizado quando pressionado */
+.custom-file-upload:active {
+  background-color: #3e8e41;
+}
 
 .hidden {
-    display: none;
+  display: none;
+}
+
+#errorMessage {
+  color: red;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 /* Estilo da tabela */
 #xmlTable {
-    border-collapse: collapse;
-    width: 100%;
-    font-family: Arial, sans-serif;
-  }
-  
-  #xmlTable th,
-  #xmlTable td {
-    border: 1px solid #dddddd;
-    padding: 8px;
-    text-align: left;
-  }
-  
-  #xmlTable th {
-    /* background-color:; */
-  }
-  
-  /* Estilo da div do nome do cliente */
-  #clientName {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
+  border-collapse: collapse;
+  width: 100%;
+  font-family: Arial, sans-serif;
+}
 
-  #ambiente {
-    margin-bottom: 10px;
-    font-size: 18px;
-    font-weight: bold;
-  }
-  
-  /* Estilo do container da tabela */
-  #tableContainer {
-    display: none; /* Inicialmente oculto */
-    padding: 10px;
-    border: 1px solid #dddddd;
-    border-radius: 5px;
-  }
-  
-  /* Estilo da tabela quando visível */
-  #tableContainer.show {
-    display: block; /* Exibir quando a tabela estiver pronta */
-  }
-  
-  /* Estilo do botão de carregamento de arquivo */
-  #fileInput {
-    margin-bottom: 10px;
-  }
+#xmlTable th,
+#xmlTable td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
 
+#xmlTable th {
+  /* background-color:; */
+}
+
+/* Estilo da div do nome do cliente */
+#clientName {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#ambiente {
+  margin-bottom: 10px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Estilo do container da tabela */
+#tableContainer {
+  display: none; /* Inicialmente oculto */
+  padding: 10px;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+}
+
+/* Estilo da tabela quando visível */
+#tableContainer.show {
+  display: block; /* Exibir quando a tabela estiver pronta */
+}
+
+/* Estilo do botão de carregamento de arquivo */
+#fileInput {
+  margin-bottom: 10px;
+}
 
 #downloadcontent {
-    margin-top: 100px;
+  margin-top: 100px;
 }
 
 #download {
-    font-size: 16px;
-    color: black;
-    background-color: #fff;
-    border: 2px solid #ffffff77;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: bold;
-    width: 100px;
-    height: 50px;
-    transition-duration: 0.4s;
-    box-shadow: 0 1px 2px 0 #4CAF50, 0 6px 20px 0 #4CAF50;
-
+  font-size: 16px;
+  color: black;
+  background-color: #fff;
+  border: 2px solid #ffffff77;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100px;
+  height: 50px;
+  transition-duration: 0.4s;
+  box-shadow: 0 1px 2px 0 #4caf50, 0 6px 20px 0 #4caf50;
 }
 
 #download:hover {
-    background-color: #4CAF50; /* Green */
-    color: white; 
-    box-shadow: 0 2px 2px 0 #4CAF50, 0 17px 50px 0 #4CAF50;
+  background-color: #4caf50; /* Green */
+  color: white;
+  box-shadow: 0 2px 2px 0 #4caf50, 0 17px 50px 0 #4caf50;
 }

@@ -1,6 +1,22 @@
 $(document).ready(function () {
   let xmlData; // Variável para armazenar os dados do XML após a leitura
 
+  // Função para marcar a linha na tabela com base no código de barras lido
+  function markTableRow(codigo) {
+    // Remove a classe "highlight" de todas as linhas da tabela
+    $("#xmlTable tbody tr").removeClass("highlight");
+
+    // Verifica se o código de barras lido corresponde a algum dos códigos no XML
+    let matchingRow = $("tr[data-codigo='" + codigo + "']");
+
+    if (matchingRow.length > 0) {
+      // Se houver correspondência, adiciona a classe "highlight" à linha correspondente
+      matchingRow.addClass("highlight");
+    } else {
+      // Caso não haja correspondência, exibe uma mensagem de erro
+      $("#errorMessage").text("Código de barras não encontrado.");
+    }
+  }
   // Função para exibir a tabela e marcar a linha correspondente ao código de barras lido
   function showTableAndHighlightRow(codigoLido) {
     if (!xmlData) return; // Se os dados do XML ainda não foram lidos, sair da função
@@ -72,12 +88,13 @@ $(document).ready(function () {
     reader.readAsText(file);
   });
 
-  // Simulação do evento de leitura do código de barras
-  // Supondo que você tenha um leitor que chama essa função quando lê um código de barras
-  function onBarcodeRead(codigoLido) {
-    showTableAndHighlightRow(codigoLido);
-  }
+  $(document).on("keyup", function (e) {
+    if (e.which === 13) {
+      // Quando o Enter for pressionado (código de barras lido)
+      let codigo = $("#codigoBarras").text();
 
-  // Exemplo: chamando onBarcodeRead com o código "12345" quando um código de barras é lido
-  onBarcodeRead("12345");
+      // Marcar a linha correspondente na tabela
+      markTableRow(codigo);
+    }
+  });
 });
