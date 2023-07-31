@@ -1,29 +1,14 @@
 $(document).ready(function () {
   let xmlData; // Variável para armazenar os dados do XML após a leitura
+  let highlightedRow = null; // Variável para armazenar a referência da linha destacada
 
-  // Função para marcar a linha na tabela com base no código de barras lido
-  function markTableRow(codigo) {
-    // Remove a classe "highlight" de todas as linhas da tabela
-    $("#xmlTable tbody tr").removeClass("highlight");
-
-    // Verifica se o código de barras lido corresponde a algum dos códigos no XML
-    let matchingRow = $("tr[data-codigo='" + codigo + "']");
-
-    if (matchingRow.length > 0) {
-      // Se houver correspondência, adiciona a classe "highlight" à linha correspondente
-      matchingRow.addClass("highlight");
-    } else {
-      // Caso não haja correspondência, exibe uma mensagem de erro
-      $("#errorMessage").text("Código de barras não encontrado.");
-    }
-  }
   // Função para exibir a tabela e marcar a linha correspondente ao código de barras lido
   function showTableAndHighlightRow(codigoLido) {
     if (!xmlData) return; // Se os dados do XML ainda não foram lidos, sair da função
     $("#xmlTable").empty(); // Limpa a tabela para inserir novos dados
 
     let tableContent =
-      "<tr><th>ID</th><th>Peça</th><th>Modulo</th><th>Largura</th><th>Altura</th><th>Cor</th><th>Código</th></tr>";
+      "<tr><th>ID</th><th>Peça</th><th>Módulo</th><th>Largura</th><th>Altura</th><th>Cor</th><th>Código</th><th>Leitura</th></tr>";
 
     // Loop para percorrer os dados do XML
     xmlData.find("Part").each(function () {
@@ -58,6 +43,12 @@ $(document).ready(function () {
 
     // Exibe a tabela
     $("#tableContainer").show();
+
+    // Seleciona o input de código de barras após carregar o XML
+    $("#codigoBarrasInput").focus();
+
+    // Adiciona a classe "leitura-col" à coluna "Leitura" na primeira linha da tabela
+    $("#xmlTable tr:first-child td:last-child").addClass("leitura-col");
   }
 
   // Captura o evento de seleção de arquivo
@@ -88,13 +79,82 @@ $(document).ready(function () {
     reader.readAsText(file);
   });
 
-  $(document).on("keyup", function (e) {
-    if (e.which === 13) {
-      // Quando o Enter for pressionado (código de barras lido)
-      let codigo = $("#codigoBarras").text();
+  // Função para marcar a linha na tabela com base no código de barras lido
+  function markTableRow(codigo) {
+    console.log("Código de barras recebido:", codigo);
 
+    // Encontra todas as células da tabela que contêm o código de barras correspondente
+    let matchingCells = $("#xmlTable td").filter(function () {
+      return $(this).text().trim() === codigo;
+    });
+
+    // Se houver células correspondentes, destaca toda a linha
+    if (matchingCells.length > 0) {
+      matchingCells.parent().addClass("highlight");
+      // Armazena a referência da nova linha destacada
+      highlightedRow = matchingCells.parent();
+      // Limpa o conteúdo da mensagem de erro
+      $("#errorMessage").text("");
+      console.log("Linha destacada:", highlightedRow);
+
+      // Verifica se a coluna de data e hora já existe na linha
+      let dataHoraCell = highlightedRow.find(".data-hora");
+
+      if (dataHoraCell.length > 0) {
+        // Se a coluna já existir, verifica se o código de barras foi lido anteriormente
+        let codigoLidoAnteriormente = dataHoraCell.data("codigo") === codigo;
+
+        if (codigoLidoAnteriormente) {
+          // Se o código de barras foi lido anteriormente, exibe a mensagem de erro
+          $("#errorMessage").text(
+            `Código de barras ${codigo} já foi lido anteriormente.`
+          );
+        } else {
+          // Se o código de barras não foi lido anteriormente, atualiza apenas o valor da data e hora
+          let now = new Date();
+          let dataHora = now.toLocaleString();
+          dataHoraCell.text(dataHora);
+          dataHoraCell.data("codigo", codigo); // Armazena o código de barras na célula de data e hora
+        }
+      } else {
+        // Se a coluna não existir, adiciona a data e hora à nova coluna na linha destacada
+        let now = new Date();
+        let dataHora = now.toLocaleString();
+        highlightedRow.append(
+          `<td class="data-hora" data-codigo="${codigo}">${dataHora}</td>`
+        );
+      }
+    } else {
+      // Caso não haja correspondência, exibe uma mensagem de erro
+      $("#errorMessage").text("Código de barras não encontrado.");
+      console.log("Código de barras não encontrado na tabela.");
+    }
+
+    // Zerar o campo de input após a leitura
+    $("#codigoBarrasInput").val("");
+  }
+
+  // Função para ler o código de barras
+  function lerCodigoDeBarras() {
+    let codigo = $("#codigoBarrasInput").val(); // Obtém o valor do código de barras lido do input
+
+    console.log("Código de barras lido:", codigo);
+
+    // Verificar se o código de barras possui o tamanho esperado (por exemplo, 8 caracteres)
+    if (codigo.length === 8) {
       // Marcar a linha correspondente na tabela
       markTableRow(codigo);
+
+      // Exibir o código de barras lido no console para verificar se está funcionando
+      console.log("Código de barras lido:", codigo);
+
+      // Zerar o campo de input após a leitura
+      $("#codigoBarrasInput").val("");
     }
+  }
+
+  // Evento para chamar a função lerCodigoDeBarras quando o valor do input mudar (quando o código de barras for lido)
+  $("#codigoBarrasInput").on("input", function () {
+    lerCodigoDeBarras();
   });
 });
