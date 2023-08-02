@@ -1,10 +1,11 @@
 body {
-  margin: 0;
+  margin: 2px;
   padding: 0;
   background-color: rgb(28, 28, 28);
   color: white;
   text-align: center;
   justify-content: center;
+  font-family: Arial, sans-serif;
 }
 
 img {
@@ -18,6 +19,27 @@ img {
 
 .highlight {
   background-color: #4caf50 !important;
+}
+
+/* Estilo do input */
+#codigoBarrasInput {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 15px;
+  transition: border-color 0.3s;
+}
+
+/* Estilo do input quando focado */
+#codigoBarrasInput:focus {
+  outline: none;
+  border-color: #4caf50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Estilo do input quando hover */
+#codigoBarrasInput:hover {
+  border-color: #45a049;
 }
 
 /* Estilo do botão de carregamento de arquivo */
@@ -50,10 +72,6 @@ img {
   background-color: #3e8e41;
 }
 
-.hidden {
-  display: none;
-}
-
 /* Estilo da mensagem de erro ao não localizar código de barras válido */
 #errorMessage {
   color: red;
@@ -73,6 +91,7 @@ img {
   border-collapse: collapse;
   width: 100%;
   font-family: Arial, sans-serif;
+  margin: 2px;
 }
 
 #xmlTable th,
@@ -102,6 +121,7 @@ img {
   padding: 10px;
   border: 1px solid #dddddd;
   border-radius: 5px;
+  margin-bottom: 20px;
 }
 
 /* Estilo da tabela quando visível */
@@ -109,32 +129,19 @@ img {
   display: block; /* Exibir quando a tabela estiver pronta */
 }
 
-.leitura-col {
-  min-width: 150px; /* Largura mínima da coluna */
-  padding-right: 10px; /* Espaçamento à direita para criar o "fechamento" */
-  border-right: 5px solid white; /* Borda à direita para criar a aparência de fechamento */
-}
-
-#downloadcontent {
-  margin-top: 100px;
-}
-
-#download {
-  font-size: 16px;
-  color: black;
-  background-color: #fff;
-  border: 2px solid #ffffff77;
-  border-radius: 8px;
+#btnBaixarPDF {
+  display: inline-block;
+  padding: 10px 15px;
   cursor: pointer;
+  background-color: #4caf50;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
   font-weight: bold;
-  width: 100px;
-  height: 50px;
-  transition-duration: 0.4s;
-  box-shadow: 0 1px 2px 0 #4caf50, 0 6px 20px 0 #4caf50;
+  margin-bottom: 20px;
 }
 
-#download:hover {
-  background-color: #4caf50; /* Green */
-  color: white;
-  box-shadow: 0 2px 2px 0 #4caf50, 0 17px 50px 0 #4caf50;
+#btnBaixarPDF:hover {
+  background-color: #45a049;
 }

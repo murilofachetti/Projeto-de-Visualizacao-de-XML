@@ -1,6 +1,18 @@
+let xmlData; // Variável global para armazenar os dados do XML após a leitura
+let leituraData = {}; // Variável global para armazenar os valores de leitura
+
 $(document).ready(function () {
-  let xmlData; // Variável para armazenar os dados do XML após a leitura
   let highlightedRow = null; // Variável para armazenar a referência da linha destacada
+  let codigoBarrasInput = $("#codigoBarrasInput"); // Seleciona o input de código de barras
+
+  // Event listener para o clique em qualquer lugar da página
+  $(document).on("click", function (e) {
+    // Verifica se o elemento clicado não é o input de código de barras
+    if (!$(e.target).is(codigoBarrasInput)) {
+      // Foca no input de código de barras
+      codigoBarrasInput.focus();
+    }
+  });
 
   // Função para exibir a tabela e marcar a linha correspondente ao código de barras lido
   function showTableAndHighlightRow(codigoLido) {
@@ -115,6 +127,9 @@ $(document).ready(function () {
           let dataHora = now.toLocaleString();
           dataHoraCell.text(dataHora);
           dataHoraCell.data("codigo", codigo); // Armazena o código de barras na célula de data e hora
+
+          // Armazena o valor da leitura para o código de barras atual
+          leituraData[codigo] = dataHora;
         }
       } else {
         // Se a coluna não existir, adiciona a data e hora à nova coluna na linha destacada
@@ -123,6 +138,8 @@ $(document).ready(function () {
         highlightedRow.append(
           `<td class="data-hora" data-codigo="${codigo}">${dataHora}</td>`
         );
+        // Armazena o valor da leitura para o código de barras atual
+        leituraData[codigo] = dataHora;
       }
     } else {
       // Caso não haja correspondência, exibe uma mensagem de erro
@@ -156,5 +173,101 @@ $(document).ready(function () {
   // Evento para chamar a função lerCodigoDeBarras quando o valor do input mudar (quando o código de barras for lido)
   $("#codigoBarrasInput").on("input", function () {
     lerCodigoDeBarras();
+  });
+
+  // Função para baixar o PDF
+  function getTableData() {
+    // Obtém os dados da tabela a partir do XML
+    let tableData = [];
+
+    // Loop para percorrer os dados do XML
+    xmlData.find("Part").each(function () {
+      let id = $(this).attr("id");
+      let peca = $(this).attr("CabDesc");
+      let modulo = $(this).attr("CabCode");
+      let larg = $(this).attr("L");
+      let alt = $(this).attr("W");
+      let cor = $(this).attr("Material");
+      let codigo = $(this).attr("MatEdgeUp");
+
+      // Constrói o array com os dados da peça
+      tableData.push([id, peca, modulo, larg, alt, cor, codigo]);
+    });
+
+    return tableData;
+  }
+
+  // Função para baixar o PDF
+  function downloadTableAsPDF() {
+    if (!xmlData) return; // Se os dados do XML ainda não foram lidos, sair da função
+
+    // Aguardar um pequeno intervalo (500ms) para garantir que todas as leituras tenham sido feitas
+    setTimeout(function () {
+      // Obter o nome do cliente e ambiente do XML
+      const clientName = xmlData.find("Part").eq(0).attr("ClientNest");
+      const ambiente = xmlData.find("Part").eq(0).attr("StackingLayout");
+
+      // Obter os dados da tabela
+      let tableData = getTableData();
+
+      // Adicionar a coluna de leitura dinamicamente
+      for (let i = 0; i < tableData.length; i++) {
+        let codigo = tableData[i][6]; // Coluna com os códigos de barras
+
+        // Verificar se existe um valor de leitura para o código de barras atual
+        let leitura = leituraData[codigo] || "Não lido"; // Exemplo: "Não lido" caso ainda não tenha sido lido
+
+        // Adicionar o valor de leitura na última posição do array de dados da linha
+        tableData[i].push(leitura);
+      }
+
+      // Definir cabeçalho da tabela, incluindo a coluna de leitura
+      let headers = [
+        "ID",
+        "Peça",
+        "Módulo",
+        "Largura",
+        "Altura",
+        "Cor",
+        "Código",
+        "Leitura",
+      ];
+
+      // Criar o conteúdo do PDF
+      let pdfContent = {
+        content: [
+          { text: `CLIENTE: ${clientName}`, fontSize: 12 },
+          {
+            text: `AMBIENTE: ${ambiente}`,
+            fontSize: 12,
+            margin: [0, 5, 0, 15],
+          },
+          {
+            table: {
+              headerRows: 1,
+              widths: [
+                "auto",
+                "auto",
+                "auto",
+                "auto",
+                "auto",
+                "auto",
+                "auto",
+                "auto",
+              ],
+              body: [headers, ...tableData],
+            },
+          },
+        ],
+      };
+
+      // Gerar o PDF
+      pdfMake.createPdf(pdfContent).download("tabela.pdf");
+    }, 500); // Esperar 500ms antes de gerar o PDF
+  }
+
+  // Evento para chamar a função downloadTableAsPDF quando o botão for clicado
+  $("#btnBaixarPDF").on("click", function () {
+    downloadTableAsPDF();
   });
 });

@@ -8,20 +8,21 @@
   </head>
   <body>
     <img src="./assets/img/WhatsApp Image 2023-07-31 at 10.56.28.jpeg" alt="" />
-    <input type="text" id="codigoBarrasInput">
+    <input type="text" id="codigoBarrasInput" placeholder="Código de Barras" />
     <label for="fileInput" class="custom-file-upload">Carregar XML</label>
-    <input type="file" id="fileInput" accept=".xml" />
+    <input type="file" id="fileInput" accept=".xml" "/>
     <div id="errorMessage"></div>
-    <div id="codigoRepetidoMessage" style="color: red;"></div>
-    <div id="tableContainer" style="display: none;">
+    <div id="codigoRepetidoMessage" style="color: red"></div>
+    <div id="tableContainer" style="display: none">
       <div id="clientName"></div>
       <div id="ambiente"></div>
-      <table id="xmlTable">
-        <!-- Conteúdo da tabela aqui -->
-      </table>
+      <table id="xmlTable"></table>
     </div>
+    <button id="btnBaixarPDF">Baixar PDF</button>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js" integrity="sha512-a9NgEEK7tsCvABL7KqtUTQjl69z7091EVPpw5KxPlZ93T141ffe1woLtbXTX+r2/8TtTvRX/v4zTL2UlMUPgwg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js" integrity="sha512-pAoMgvsSBQTe8P3og+SAnjILwnti03Kz92V3Mxm0WOtHuA482QeldNM5wEdnKwjOnQ/X11IM6Dn3nbmvOz365g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="script.js"></script>
   </body>
 </html>
