@@ -1,6 +1,6 @@
 # Projeto de Visualização de XML
 
-Este projeto é uma aplicação web simples que permite visualizar dados contidos em um arquivo XML e realizar leituras de códigos de barras em tempo real.
+Este projeto é uma aplicação web simples que permite visualizar dados contidos em um arquivo XML e realizar leituras de códigos de barras em tempo real utilizando uma máquina de leitura de código. Foi desenvolvido para a empresa BelaKasa Móveis Planejados.
 
 ## Conteúdo
 - Pré-requisitos
